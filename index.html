@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STNDRD — Three ingredients. Nothing else.</title>
+<meta name="description" content="Unscented lip balm made from three ingredients: beeswax, jojoba oil, vitamin E. Pre-launch waitlist.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <button class="logo" data-scroll="top">STNDRD</button>
+  <nav class="nav">
+    <button class="nav-item" data-nav="product" data-scroll="product">
+      <span class="underline"></span>The Product
+    </button>
+    <button class="nav-item" data-nav="ingredients" data-scroll="ingredients">
+      <span class="underline"></span>Ingredients
+    </button>
+    <button class="nav-cta" data-scroll="waitlist">Join the waitlist</button>
+  </nav>
+</header>
+
+<!-- hero -->
+<section class="hero ph">
+  <img src="assets/HeroShot.png" alt="STNDRD lip balm tube lying on a light grey surface" width="1672" height="941">
+  <div class="hero-inner">
+    <span class="eyebrow">PRE-LAUNCH · ONE PRODUCT</span>
+    <h1>Three Ingredients. Nothing Else.</h1>
+    <p>No scent. No shine. Lip balm that does the one thing and stops.</p>
+    <div class="hero-cta-wrap">
+      <button class="pill-btn" data-scroll="waitlist">Join the waitlist</button>
+    </div>
+  </div>
+</section>
+
+<!-- product -->
+<section class="product" id="product">
+  <div class="ph"><img src="assets/Shoot1.webp" alt="STNDRD lip balm tube standing upright against a warm neutral background" width="1023" height="1537"></div>
+  <div class="product-copy">
+    <span class="eyebrow">THE PRODUCT</span>
+    <h2>Unscented lip balm.<br>One tube, 4.25 g.</h2>
+    <p>Matte finish, no fragrance, no tint. The cap clicks shut and the tube doesn't sweat in a pocket. Not a routine, a system or a step — one tube that keeps your lips from cracking, then gets out of the way.</p>
+    <div class="spec-list">
+      <div class="spec-row"><span class="spec-label">Ingredients</span><span>Beeswax, jojoba oil, vitamin E</span></div>
+      <div class="spec-row"><span class="spec-label">Scent</span><span>None</span></div>
+      <div class="spec-row"><span class="spec-label">Finish</span><span>Matte, no tint</span></div>
+      <div class="spec-row"><span class="spec-label">Net weight</span><span>4.25 g</span></div>
+      <div class="spec-row"><span class="spec-label">Made</span><span>USA</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3-photo strip -->
+<section class="strip">
+  <div class="ph"><img src="assets/Capoff.webp" alt="STNDRD lip balm tube standing open with the cap removed beside it" width="1055" height="589"></div>
+  <div class="ph"><img src="assets/ManHolding.jpeg" alt="Hand holding the STNDRD lip balm tube" width="1024" height="1024"></div>
+  <div class="ph"><img src="assets/Hands.jpeg" alt="Macro shot of matte balm texture swiped on the back of a hand" width="1024" height="1024"></div>
+</section>
+
+<!-- ingredients -->
+<section id="ingredients">
+  <div class="ingredients-head">
+    <span class="eyebrow-quiet">INGREDIENTS</span>
+    <h2>Everything in it, listed.</h2>
+  </div>
+  <div class="ingredients-grid">
+    <div class="ingredient-card">
+      <div class="ingredient-photo" tabindex="0">
+        <img class="img-primary" src="assets/BesswaxBlock.jpeg" alt="A raw block of beeswax" width="825" height="1024">
+        <img class="img-hover" src="assets/BeeswaxPowder.jpeg" alt="Beeswax ground into a fine powder" width="825" height="1024">
+      </div>
+      <h3>Beeswax</h3>
+      <p>Seals moisture in. Nothing exotic about it.</p>
+    </div>
+    <div class="ingredient-card">
+      <div class="ingredient-photo" tabindex="0">
+        <img class="img-primary" src="assets/JojobaOil.jpeg" alt="Jojoba oil pooled in a shallow glass dish" width="825" height="1024">
+        <img class="img-hover" src="assets/JojobaSplattered.jpeg" alt="Jojoba oil splattered in droplets" width="825" height="1024">
+      </div>
+      <h3>Jojoba oil</h3>
+      <p>Absorbs without leaving a slick film.</p>
+    </div>
+    <div class="ingredient-card">
+      <div class="ingredient-photo" tabindex="0">
+        <img class="img-primary" src="assets/VitaminE.jpeg" alt="A single vitamin E softgel capsule" width="1024" height="559">
+        <img class="img-hover" src="assets/VitaminPowder.jpeg" alt="Vitamin E in powder form" width="1024" height="559">
+      </div>
+      <h3>Vitamin E</h3>
+      <p>Keeps the balm stable in a hot car.</p>
+    </div>
+  </div>
+</section>
+
+<!-- waitlist + footer -->
+<section class="waitlist" id="waitlist">
+  <h2>Get the launch email. Nothing else.</h2>
+
+  <div class="waitlist-confirm" id="waitlist-confirm" hidden>
+    You're on the list. We'll email once — when it ships.
+  </div>
+
+  <form class="waitlist-form" id="waitlist-form" novalidate>
+    <div class="waitlist-form-row">
+      <input type="email" id="waitlist-email" placeholder="you@email.com" required>
+      <button type="submit">Join</button>
+    </div>
+    <span class="waitlist-error" id="waitlist-error">That address looks incomplete.</span>
+    <span class="waitlist-hint">Waitlist gets the launch discount.</span>
+  </form>
+
+  <div class="footer-row">
+    <div class="footer-brand">
+      <div class="footer-mark">S</div>
+      <span class="footer-wordmark">STNDRD</span>
+    </div>
+    <div class="footer-contact">
+      <span>Instagram · TikTok — @STNDRD.HQ</span>
+      <span>lami.andea@stndrdhq.com · obsabada@stndrdhq.com</span>
+    </div>
+  </div>
+</section>
+
+<script src="js/main.js"></script>
+</body>
+</html>
