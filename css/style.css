@@ -206,16 +206,6 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
   font: 300 34px/1.15 var(--font-sans);
   letter-spacing: -.02em;
 }
-.letter-d {
-  display: inline-flex;
-  height: 1.4em;
-  aspect-ratio: 70 / 76;
-  vertical-align: -0.3em;
-}
-.letter-d svg {
-  width: 100%;
-  height: 100%;
-}
 .ingredients-grid {
   padding: 0 40px 12px;
   display: grid;
