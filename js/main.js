@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   initScrollNav();
-  initScrollSpy();
   initWaitlistForm();
   initIngredientPhotos();
 });
@@ -19,30 +18,6 @@ function initScrollNav() {
       }
     });
   });
-}
-
-function initScrollSpy() {
-  const navItems = document.querySelectorAll('.nav-item[data-nav]');
-  if (!navItems.length) return;
-
-  const sections = Array.from(navItems).map((item) => ({
-    item,
-    el: document.getElementById(item.getAttribute('data-nav')),
-  })).filter((s) => s.el);
-
-  if (!sections.length) return;
-
-  const onScroll = () => {
-    const marker = window.scrollY + 140;
-    let active = null;
-    for (const s of sections) {
-      if (s.el.offsetTop <= marker) active = s;
-    }
-    sections.forEach((s) => s.item.classList.toggle('active', s === active));
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 }
 
 function initWaitlistForm() {
