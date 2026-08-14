@@ -102,12 +102,12 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
 }
 
 /* ---------- ingredient hover cross-fade ---------- */
-.ingredient-photo {
+.crossfade-photo {
   position: relative;
   overflow: hidden;
   background: var(--border);
 }
-.ingredient-photo img {
+.crossfade-photo img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -117,10 +117,10 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
   display: block;
   transition: opacity .35s ease-in-out;
 }
-.ingredient-photo .img-hover { opacity: 0; }
-.ingredient-photo:hover .img-hover,
-.ingredient-photo:focus-visible .img-hover,
-.ingredient-photo.is-active .img-hover {
+.crossfade-photo .img-hover { opacity: 0; }
+.crossfade-photo:hover .img-hover,
+.crossfade-photo:focus-visible .img-hover,
+.crossfade-photo.is-active .img-hover {
   opacity: 1;
 }
 
@@ -204,7 +204,7 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
   gap: 2px;
   background: var(--border);
 }
-.strip .ph { height: 280px; }
+.strip .crossfade-photo { height: 280px; }
 
 /* ---------- ingredients ---------- */
 .ingredients-head {
@@ -242,7 +242,7 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
   gap: 20px;
 }
 .ingredient-card { display: flex; flex-direction: column; gap: 14px; }
-.ingredient-card .ingredient-photo { height: 260px; }
+.ingredient-card .crossfade-photo { height: 260px; }
 .ingredient-card h3 { font: 500 20px/1.3 var(--font-sans); }
 .ingredient-card p { font: 400 15px/1.65 var(--font-sans); color: var(--text-secondary); }
 

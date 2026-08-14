@@ -46,7 +46,7 @@ function initWaitlistForm() {
 }
 
 function initIngredientPhotos() {
-  const photos = document.querySelectorAll('.ingredient-photo');
+  const photos = document.querySelectorAll('.crossfade-photo');
   if (!photos.length) return;
 
   const isTouch = window.matchMedia('(hover: none)').matches;
