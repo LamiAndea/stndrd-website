@@ -78,7 +78,8 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
   overflow: hidden;
   background: var(--border);
 }
-.ph img {
+.ph img,
+.ph video {
   position: absolute;
   inset: 0;
   width: 100%;
