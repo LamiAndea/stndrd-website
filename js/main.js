@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   initScrollNav();
-  initWaitlistForm('waitlist-form', 'waitlist-email', 'waitlist-error', 'waitlist-confirm');
   initWaitlistForm('hero-signup-form', 'hero-signup-email', 'hero-signup-error', 'hero-signup-confirm');
   initIngredientPhotos();
   initScrollProgress();
