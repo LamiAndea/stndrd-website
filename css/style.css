@@ -152,21 +152,6 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
   overflow: visible;
   margin: 0 .253em 0 .053em;
 }
-.nav {
-  display: flex;
-  gap: 26px;
-  align-items: center;
-  font: 400 13px/1 var(--font-sans);
-}
-.nav-cta {
-  background: var(--ink);
-  color: var(--ink-inverse);
-  padding: 9px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  border: none;
-  font: 400 13px/1 var(--font-sans);
-}
 
 /* ---------- hero ---------- */
 .hero {
@@ -324,7 +309,6 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
   .site-header { padding: 18px 20px; }
-  .nav { gap: 16px; }
   .hero-inner, .ingredients-head { padding-left: 20px; padding-right: 20px; }
   .ingredients-grid { grid-template-columns: 1fr; padding-left: 20px; padding-right: 20px; }
   .strip { grid-template-columns: 1fr; }
@@ -339,7 +323,5 @@ input::placeholder, textarea::placeholder { color: #9B9A95; }
 @media (max-width: 480px) {
   .site-header { padding: 16px; }
   .logo { font-size: 13px; }
-  .nav { gap: 10px; }
-  .nav-cta { padding: 8px 12px; font-size: 11px; }
   .hero h1 { font-size: 42px; }
 }
