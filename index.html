@@ -9,8 +9,10 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
 <header class="site-header">
-  <button class="logo" data-scroll="top">STNDRD</button>
+  <button class="logo" data-scroll="top" aria-label="STNDRD, back to top">STNDR<span class="letter-d" aria-hidden="true"><svg viewBox="0 8 70 76" focusable="false"><text x="0" y="82" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="500" font-size="100" fill="currentColor">D</text><circle cx="40" cy="40" r="3.8" fill="currentColor"/><circle cx="55" cy="40" r="3.8" fill="currentColor"/><path d="M37,52 Q47.5,63 58,52" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span></button>
   <nav class="nav">
     <button class="nav-cta" data-scroll="waitlist">Join the waitlist</button>
   </nav>
@@ -25,7 +27,16 @@
     <h1>Three Ingredients. Nothing Else.</h1>
     <p>No scent. No shine. Lip balm that does the one thing and stops.</p>
     <div class="hero-cta-wrap">
-      <button class="pill-btn" data-scroll="waitlist">Join the waitlist</button>
+      <div class="hero-signup-confirm" id="hero-signup-confirm" hidden>
+        You're on the list. We'll email once — when it ships.
+      </div>
+      <form class="hero-signup-form" id="hero-signup-form" novalidate>
+        <div class="hero-signup-row">
+          <input type="email" id="hero-signup-email" placeholder="you@email.com" aria-label="Email address" required>
+          <button type="submit">Join</button>
+        </div>
+        <span class="hero-signup-error" id="hero-signup-error">That address looks incomplete.</span>
+      </form>
     </div>
   </div>
 </section>

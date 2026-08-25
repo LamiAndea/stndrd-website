@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   initScrollNav();
-  initWaitlistForm();
+  initWaitlistForm('waitlist-form', 'waitlist-email', 'waitlist-error', 'waitlist-confirm');
+  initWaitlistForm('hero-signup-form', 'hero-signup-email', 'hero-signup-error', 'hero-signup-confirm');
   initIngredientPhotos();
+  initScrollProgress();
 });
 
 function initScrollNav() {
@@ -20,13 +22,13 @@ function initScrollNav() {
   });
 }
 
-function initWaitlistForm() {
-  const form = document.getElementById('waitlist-form');
+function initWaitlistForm(formId, emailId, errorId, confirmId) {
+  const form = document.getElementById(formId);
   if (!form) return;
 
-  const emailInput = document.getElementById('waitlist-email');
-  const errorEl = document.getElementById('waitlist-error');
-  const confirmEl = document.getElementById('waitlist-confirm');
+  const emailInput = document.getElementById(emailId);
+  const errorEl = document.getElementById(errorId);
+  const confirmEl = document.getElementById(confirmId);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   emailInput.addEventListener('input', () => {
@@ -59,4 +61,26 @@ function initIngredientPhotos() {
       if (!wasActive) photo.classList.add('is-active');
     });
   });
+}
+
+function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+    bar.style.width = pct + '%';
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+
+  update();
 }
