@@ -10,37 +10,50 @@ A single-page site built to collect waitlist signups ahead of launch: a full-ble
 
 ## Stack
 
-Plain HTML, CSS, and vanilla JS. No framework, no build step, no dependencies — open `index.html` and it runs.
+[Astro](https://astro.build) with the Vercel adapter. Static HTML output with a single serverless API route for the waitlist. Images are optimized at build time (AVIF/WebP, responsive widths) via `astro:assets`.
 
 ## Structure
 
 ```
 .
-├── index.html          # single page: hero, ingredients, photo strip, waitlist
-├── css/
-│   └── style.css        # all styling, design tokens as CSS custom properties
-├── js/
-│   └── main.js           # smooth-scroll nav, waitlist form validation,
-│                          # image hover/tap cross-fades
-└── assets/               # product photography
+├── src/
+│   ├── pages/
+│   │   ├── index.astro       # the page: hero, ingredients, photo strip
+│   │   ├── 404.astro         # branded not-found page
+│   │   └── api/waitlist.ts   # serverless signup endpoint (Resend Audiences)
+│   ├── components/           # Hero, Ingredients, Strip, header/footer, CrossfadePhoto
+│   ├── styles/global.css     # all styling, design tokens as CSS custom properties
+│   ├── scripts/main.js       # motion, waitlist form, cross-fades, scroll progress
+│   └── assets/               # product photography (optimized at build)
+└── public/                   # favicon, og image, robots, sitemap
 ```
 
 ## Running locally
 
-No install step required. From this directory:
-
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+npm install
+npm run dev        # http://localhost:4321
+npm run build      # production build to dist/
 ```
 
-Any static file server works equally well (`npx serve`, VS Code's Live Server, etc.).
+## Waitlist configuration
+
+Signups are stored as contacts in a [Resend](https://resend.com) Audience. Set two
+environment variables (locally in `.env`, and in the Vercel project settings):
+
+```
+RESEND_API_KEY=re_...
+RESEND_AUDIENCE_ID=...
+```
+
+Until they are set, the API returns 503 and the form tells visitors the waitlist
+isn't open yet. The form also carries a honeypot field and light per-IP rate limiting.
 
 ## Features
 
 - Responsive layout, single breakpoint set for tablet/mobile
 - Hover cross-fade on ingredient and lifestyle photos, with a tap-to-reveal fallback on touch devices (no `:hover` reliance)
-- Client-side waitlist email validation, no backend
+- Waitlist signup with client validation, a serverless endpoint, honeypot spam protection, and rate limiting
 - Semantic markup: real headings, descriptive `alt` text, keyboard-focusable interactive photo cards
 
 ## Deployment

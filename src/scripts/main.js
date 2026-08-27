@@ -1,13 +1,11 @@
-// Set this to your real waitlist endpoint (e.g. '/api/waitlist' on Vercel).
-// While null, submissions are accepted client-side only and NOT stored anywhere.
-const WAITLIST_ENDPOINT = null;
+const WAITLIST_ENDPOINT = '/api/waitlist';
 
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 document.addEventListener('DOMContentLoaded', () => {
   initScrollNav();
-  initWaitlistForm('hero-signup-form', 'hero-signup-email', 'hero-signup-error', 'hero-signup-confirm', 'hero-signup-submit');
+  initWaitlistForm('hero-signup-form', 'hero-signup-email', 'hero-signup-error', 'hero-signup-confirm', 'hero-signup-submit', 'hero-signup-company');
   initIngredientPhotos();
   initScrollProgress();
   initScrollReveals();
@@ -29,7 +27,7 @@ function initScrollNav() {
   });
 }
 
-function initWaitlistForm(formId, emailId, errorId, confirmId, submitId) {
+function initWaitlistForm(formId, emailId, errorId, confirmId, submitId, honeypotId) {
   const form = document.getElementById(formId);
   if (!form) return;
 
@@ -37,6 +35,7 @@ function initWaitlistForm(formId, emailId, errorId, confirmId, submitId) {
   const errorEl = document.getElementById(errorId);
   const confirmEl = document.getElementById(confirmId);
   const submitBtn = document.getElementById(submitId);
+  const honeypot = document.getElementById(honeypotId);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   const showError = (message) => {
@@ -57,22 +56,31 @@ function initWaitlistForm(formId, emailId, errorId, confirmId, submitId) {
       return;
     }
 
-    if (WAITLIST_ENDPOINT) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Joining…';
-      try {
-        const res = await fetch(WAITLIST_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        });
-        if (!res.ok) throw new Error('Request failed: ' + res.status);
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Join';
-        showError("Couldn't reach the server. Check your connection and try again.");
-        return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Joining…';
+    let failMessage = null;
+    try {
+      const res = await fetch(WAITLIST_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, company: honeypot ? honeypot.value : '' }),
+      });
+      if (res.status === 503) {
+        failMessage = "The waitlist isn't open quite yet. Try again soon.";
+      } else if (res.status === 429) {
+        failMessage = 'Too many attempts. Wait a minute and try again.';
+      } else if (!res.ok) {
+        failMessage = "Couldn't save your address. Try again in a moment.";
       }
+    } catch {
+      failMessage = "Couldn't reach the server. Check your connection and try again.";
+    }
+
+    if (failMessage) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Join';
+      showError(failMessage);
+      return;
     }
 
     const swap = () => {
@@ -103,6 +111,28 @@ function initIngredientPhotos() {
       if (!wasActive) photo.classList.add('is-active');
     });
   });
+}
+
+function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+    bar.style.transform = 'scaleX(' + pct + ')';
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+
+  update();
 }
 
 function initScrollReveals() {
@@ -142,26 +172,4 @@ function initScrollReveals() {
   }, { rootMargin: '0px 0px -12% 0px' });
 
   targets.forEach((el) => observer.observe(el));
-}
-
-function initScrollProgress() {
-  const bar = document.getElementById('scroll-progress');
-  if (!bar) return;
-
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = max > 0 ? Math.min(1, window.scrollY / max) : 0;
-    bar.style.transform = 'scaleX(' + pct + ')';
-  };
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }, { passive: true });
-
-  update();
 }
