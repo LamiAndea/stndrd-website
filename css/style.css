@@ -19,6 +19,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+::selection { background: var(--accent); color: var(--ink-inverse); }
+input, textarea { caret-color: var(--accent); }
+
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
@@ -119,6 +122,33 @@ h1, h2 { text-wrap: balance; }
   opacity: 1;
 }
 
+/* ---------- scroll reveals ---------- */
+/* JS applies .reveal-pending only to elements still below the viewport and
+   only when motion is allowed, so content stays visible without JS. Cards
+   rise as a list; photos pull into focus, echoing the hero. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-pending {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity .65s cubic-bezier(0.16, 1, 0.3, 1),
+      transform .65s cubic-bezier(0.16, 1, 0.3, 1),
+      filter .65s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0s);
+    will-change: opacity, transform;
+  }
+  .reveal-pending.reveal-soft-focus {
+    transform: none;
+    filter: blur(10px);
+    will-change: opacity, filter;
+  }
+  .reveal-pending.is-revealed {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
 /* ---------- scroll progress ---------- */
 .scroll-progress {
   position: fixed;
@@ -158,6 +188,7 @@ h1, h2 { text-wrap: balance; }
   border: none;
   color: var(--ink);
 }
+.logo { transition: opacity .15s ease; }
 .logo:hover { opacity: .65; }
 .logo svg {
   height: .72em;
@@ -170,6 +201,39 @@ h1, h2 { text-wrap: balance; }
   min-height: max(680px, 88vh);
   display: flex;
   align-items: flex-end;
+}
+
+/* Focal entrance: the photo settles into place while the copy pulls into
+   focus — one rehearsed sequence, once per load. CSS-only, so a failed
+   script never hides the page; outside this media block everything is
+   simply visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero img {
+    animation: hero-photo-settle 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-inner > * {
+    animation: hero-rise .6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: .15s;
+  }
+  .hero h1 {
+    animation-name: hero-focus;
+    animation-duration: .7s;
+    animation-delay: .24s;
+  }
+  .hero p { animation-delay: .34s; }
+  .hero-inner > .hero-cta-wrap { animation-delay: .44s; }
+}
+@keyframes hero-photo-settle {
+  from { transform: scale(1.04); }
+  to   { transform: none; }
+}
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes hero-focus {
+  from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+  to   { opacity: 1; transform: none; filter: none; }
 }
 .hero-scrim {
   position: absolute;
@@ -241,6 +305,11 @@ h1, h2 { text-wrap: balance; }
 }
 .hero-signup-row button:hover { opacity: .9; }
 .hero-signup-row button:disabled { opacity: .6; cursor: default; }
+.hero-signup-row button { transition: opacity .15s ease; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-signup-row button { transition: opacity .15s ease, transform .12s ease; }
+  .hero-signup-row button:active:not(:disabled) { transform: scale(.97); }
+}
 .hero-signup-row button:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 2px;
@@ -253,6 +322,13 @@ h1, h2 { text-wrap: balance; }
   color: var(--error);
 }
 .hero-signup-error.show { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-signup-error.show { animation: error-in .2s ease-out both; }
+}
+@keyframes error-in {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: none; }
+}
 .hero-signup-confirm {
   border: 1px solid var(--border);
   background: var(--bg-alt);
@@ -260,6 +336,17 @@ h1, h2 { text-wrap: balance; }
   border-radius: 999px;
   font: 400 14px/1.5 var(--font-sans);
   color: var(--ink);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-signup-form { transition: opacity .16s ease-out; }
+  .hero-signup-form.form-leave { opacity: 0; }
+  .hero-signup-confirm.confirm-enter {
+    animation: confirm-settle .45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+@keyframes confirm-settle {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* ---------- 3-photo strip ---------- */

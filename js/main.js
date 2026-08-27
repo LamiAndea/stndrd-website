@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWaitlistForm('hero-signup-form', 'hero-signup-email', 'hero-signup-error', 'hero-signup-confirm', 'hero-signup-submit');
   initIngredientPhotos();
   initScrollProgress();
+  initScrollReveals();
 });
 
 function initScrollNav() {
@@ -74,8 +75,17 @@ function initWaitlistForm(formId, emailId, errorId, confirmId, submitId) {
       }
     }
 
-    form.hidden = true;
-    confirmEl.hidden = false;
+    const swap = () => {
+      form.hidden = true;
+      confirmEl.hidden = false;
+      if (!prefersReducedMotion()) confirmEl.classList.add('confirm-enter');
+    };
+    if (prefersReducedMotion()) {
+      swap();
+    } else {
+      form.classList.add('form-leave');
+      setTimeout(swap, 160);
+    }
   });
 }
 
@@ -93,6 +103,45 @@ function initIngredientPhotos() {
       if (!wasActive) photo.classList.add('is-active');
     });
   });
+}
+
+function initScrollReveals() {
+  if (prefersReducedMotion() || !('IntersectionObserver' in window)) return;
+
+  const groups = [
+    { els: document.querySelectorAll('.ingredients-head'), step: 0 },
+    { els: document.querySelectorAll('.ingredient-card'), step: 90 },
+    { els: document.querySelectorAll('.strip .crossfade-photo'), step: 80, softFocus: true },
+  ];
+
+  const targets = [];
+  groups.forEach(({ els, step, softFocus }) => {
+    els.forEach((el, i) => {
+      // Never hide anything already on screen; without JS nothing is hidden.
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.85) return;
+      el.classList.add('reveal-pending');
+      if (softFocus) el.classList.add('reveal-soft-focus');
+      if (step) el.style.setProperty('--reveal-delay', (i * step) + 'ms');
+      targets.push(el);
+    });
+  });
+  if (!targets.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      observer.unobserve(el);
+      el.classList.add('is-revealed');
+      el.addEventListener('transitionend', () => {
+        // Settle to plain styles so will-change doesn't linger.
+        el.classList.remove('reveal-pending', 'is-revealed', 'reveal-soft-focus');
+        el.style.removeProperty('--reveal-delay');
+      }, { once: true });
+    });
+  }, { rootMargin: '0px 0px -12% 0px' });
+
+  targets.forEach((el) => observer.observe(el));
 }
 
 function initScrollProgress() {
