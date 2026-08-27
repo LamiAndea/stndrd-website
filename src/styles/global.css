@@ -473,7 +473,6 @@ h1, h2 { text-wrap: balance; }
   min-width: 0;
   overflow-wrap: break-word;
 }
-.footer-privacy { color: var(--text-footer); opacity: .75; }
 .footer-contact a { color: inherit; text-decoration: underline; }
 .footer-contact a:hover { color: var(--ink-inverse); }
 .footer-contact a:focus-visible { outline-color: var(--ink-inverse); }
