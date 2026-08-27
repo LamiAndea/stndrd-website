@@ -5,14 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>STNDRD — Three ingredients. Nothing else.</title>
 <meta name="description" content="Unscented lip balm made from three ingredients: beeswax, jojoba oil, vitamin E. Pre-launch waitlist.">
+<meta name="theme-color" content="#E6E6E3">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
 <header class="site-header">
-  <button class="logo" data-scroll="top" aria-label="STNDRD, back to top">STNDR<svg viewBox="0 0 85.4 100" fill="none" stroke="currentColor" aria-hidden="true" focusable="false">
+  <button class="logo" data-scroll="top" aria-label="STNDRD, back to top"><span translate="no">STNDR</span><svg viewBox="0 0 85.4 100" fill="none" stroke="currentColor" aria-hidden="true" focusable="false">
     <path d="M8 8 H43 A34.4 42 0 0 1 43 92 H8 Z" stroke-width="16"/>
     <circle cx="34.5" cy="40" r="4.2" fill="currentColor"/>
     <circle cx="51" cy="40" r="4.2" fill="currentColor"/>
@@ -20,24 +23,26 @@
   </svg></button>
 </header>
 
+<main id="main">
+
 <!-- hero -->
 <section class="hero ph">
-  <img src="assets/HeroShot.jpeg" alt="STNDRD lip balm tube resting diagonally on a light grey surface" width="1365" height="768">
+  <img src="assets/HeroShot.jpeg" alt="STNDRD lip balm tube resting diagonally on a light grey surface" width="1365" height="768" fetchpriority="high">
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-inner">
     <span class="eyebrow">PRE-LAUNCH · ONE PRODUCT</span>
     <h1>Three Ingredients. Nothing Else.</h1>
     <p>No scent. No shine. Lip balm that does the one thing and stops.</p>
     <div class="hero-cta-wrap">
-      <div class="hero-signup-confirm" id="hero-signup-confirm" hidden>
+      <div class="hero-signup-confirm" id="hero-signup-confirm" role="status" hidden>
         You're on the list. We'll email once — when it ships.
       </div>
       <form class="hero-signup-form" id="hero-signup-form" novalidate>
         <div class="hero-signup-row">
-          <input type="email" id="hero-signup-email" placeholder="you@email.com" aria-label="Email address" required>
-          <button type="submit">Join</button>
+          <input type="email" id="hero-signup-email" name="email" autocomplete="email" spellcheck="false" placeholder="you@email.com" aria-label="Email address" aria-describedby="hero-signup-error" required>
+          <button type="submit" id="hero-signup-submit">Join</button>
         </div>
-        <span class="hero-signup-error" id="hero-signup-error">That address looks incomplete.</span>
+        <span class="hero-signup-error" id="hero-signup-error" role="alert">That address looks incomplete.</span>
       </form>
     </div>
   </div>
@@ -51,25 +56,25 @@
   </div>
   <div class="ingredients-grid">
     <div class="ingredient-card">
-      <div class="crossfade-photo" tabindex="0">
-        <img class="img-primary" src="assets/BesswaxBlock.jpeg" alt="A raw block of beeswax" width="825" height="1024">
-        <img class="img-hover" src="assets/BeeswaxPowder.jpeg" alt="Beeswax ground into a fine powder" width="825" height="1024">
+      <div class="crossfade-photo">
+        <img class="img-primary" src="assets/BesswaxBlock.jpeg" alt="A raw block of beeswax" width="825" height="1024" loading="lazy">
+        <img class="img-hover" src="assets/BeeswaxPowder.jpeg" alt="Beeswax ground into a fine powder" width="825" height="1024" loading="lazy">
       </div>
       <h3>Beeswax</h3>
       <p>Seals moisture in. Nothing exotic about it.</p>
     </div>
     <div class="ingredient-card">
-      <div class="crossfade-photo" tabindex="0">
-        <img class="img-primary" src="assets/JojobaOil.jpeg" alt="Jojoba oil pooled in a shallow glass dish" width="825" height="1024">
-        <img class="img-hover" src="assets/JojobaSplattered.jpeg" alt="Jojoba oil splattered in droplets" width="825" height="1024">
+      <div class="crossfade-photo">
+        <img class="img-primary" src="assets/JojobaOil.jpeg" alt="Jojoba oil pooled in a shallow glass dish" width="825" height="1024" loading="lazy">
+        <img class="img-hover" src="assets/JojobaSplattered.jpeg" alt="Jojoba oil splattered in droplets" width="825" height="1024" loading="lazy">
       </div>
       <h3>Jojoba oil</h3>
       <p>Absorbs without leaving a slick film.</p>
     </div>
     <div class="ingredient-card">
-      <div class="crossfade-photo" tabindex="0">
-        <img class="img-primary" src="assets/VitaminE.jpeg" alt="A single vitamin E softgel capsule" width="1024" height="559">
-        <img class="img-hover" src="assets/VitaminPowder.jpeg" alt="Vitamin E in powder form" width="1024" height="559">
+      <div class="crossfade-photo">
+        <img class="img-primary" src="assets/VitaminE.jpeg" alt="A single vitamin E softgel capsule" width="1024" height="559" loading="lazy">
+        <img class="img-hover" src="assets/VitaminPowder.jpeg" alt="Vitamin E in powder form" width="1024" height="559" loading="lazy">
       </div>
       <h3>Vitamin E</h3>
       <p>Keeps the balm stable in a hot car.</p>
@@ -79,33 +84,35 @@
 
 <!-- 3-photo strip -->
 <section class="strip">
-  <div class="crossfade-photo" tabindex="0">
-    <img class="img-primary" src="assets/Capoff.webp" alt="STNDRD lip balm tube standing open with the cap removed beside it" width="1055" height="589">
-    <img class="img-hover" src="assets/HeroPhoto.webp" alt="STNDRD lip balm tube lying at an angle on a light grey surface" width="1023" height="1537">
+  <div class="crossfade-photo">
+    <img class="img-primary" src="assets/Capoff.webp" alt="STNDRD lip balm tube standing open with the cap removed beside it" width="1055" height="589" loading="lazy">
+    <img class="img-hover" src="assets/HeroPhoto.webp" alt="STNDRD lip balm tube lying at an angle on a light grey surface" width="1023" height="1537" loading="lazy">
   </div>
-  <div class="crossfade-photo" tabindex="0">
-    <img class="img-primary" src="assets/ManHolding.jpeg" alt="Hand holding the STNDRD lip balm tube" width="1024" height="1024">
-    <img class="img-hover" src="assets/Hands.jpeg" alt="Macro shot of matte balm texture swiped on the back of a hand" width="1024" height="1024">
+  <div class="crossfade-photo">
+    <img class="img-primary" src="assets/ManHolding.jpeg" alt="Hand holding the STNDRD lip balm tube" width="1024" height="1024" loading="lazy">
+    <img class="img-hover" src="assets/Hands.jpeg" alt="Macro shot of matte balm texture swiped on the back of a hand" width="1024" height="1024" loading="lazy">
   </div>
-  <div class="crossfade-photo" tabindex="0">
-    <img class="img-primary" src="assets/FlatLayEssentials.jpeg" alt="STNDRD lip balm tube arranged with everyday carry items: phone, watch, wallet, sunglasses, keys" width="1012" height="1024">
-    <img class="img-hover" src="assets/FlatLayEssentialsClose.jpeg" alt="Closer view of the STNDRD tube among the same everyday carry items" width="1012" height="1024">
+  <div class="crossfade-photo">
+    <img class="img-primary" src="assets/FlatLayEssentials.jpeg" alt="STNDRD lip balm tube arranged with everyday carry items: phone, watch, wallet, sunglasses, keys" width="1012" height="1024" loading="lazy">
+    <img class="img-hover" src="assets/FlatLayEssentialsClose.jpeg" alt="Closer view of the STNDRD tube among the same everyday carry items" width="1012" height="1024" loading="lazy">
   </div>
 </section>
 
+</main>
+
 <!-- footer -->
-<section class="site-footer">
+<footer class="site-footer">
   <div class="footer-row">
     <div class="footer-brand">
-      <div class="footer-mark">S</div>
-      <span class="footer-wordmark">STNDRD</span>
+      <div class="footer-mark" aria-hidden="true">S</div>
+      <span class="footer-wordmark" translate="no">STNDRD</span>
     </div>
     <div class="footer-contact">
-      <span>Instagram · TikTok — @STNDRD.HQ</span>
-      <span>lami.andea@stndrdhq.com · obsabada@stndrdhq.com</span>
+      <span>Instagram · TikTok — <span translate="no">@STNDRD.HQ</span></span>
+      <span translate="no"><a href="mailto:lami.andea@stndrdhq.com">lami.andea@stndrdhq.com</a> · <a href="mailto:obsabada@stndrdhq.com">obsabada@stndrdhq.com</a></span>
     </div>
   </div>
-</section>
+</footer>
 
 <script src="js/main.js"></script>
 </body>
