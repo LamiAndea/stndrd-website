@@ -1,0 +1,31 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — STNDRD</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#E6E6E3">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<SiteHeader />
+
+<main class="notfound">
+  <span class="eyebrow-quiet">404</span>
+  <h1>Nothing here.</h1>
+  <p>STNDRD is one product and one page — and this isn't it.</p>
+  <a class="notfound-link" href="/">Back to the balm</a>
+</main>
+
+<SiteFooter />
+
+</body>
+</html>

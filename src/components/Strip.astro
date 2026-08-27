@@ -1,0 +1,47 @@
+---
+import CrossfadePhoto from './CrossfadePhoto.astro';
+import capoff from '../assets/Capoff.webp';
+import heroPhoto from '../assets/HeroPhoto.webp';
+import manHolding from '../assets/ManHolding.jpeg';
+import hands from '../assets/Hands.jpeg';
+import flatLay from '../assets/FlatLayEssentials.jpeg';
+import flatLayClose from '../assets/FlatLayEssentialsClose.jpeg';
+
+const stripSizes = '(max-width: 860px) 100vw, 33vw';
+
+const pairs = [
+  {
+    primary: capoff,
+    hover: heroPhoto,
+    altPrimary: 'STNDRD lip balm tube standing open with the cap removed beside it',
+    altHover: 'STNDRD lip balm tube lying at an angle on a light grey surface',
+    widths: [480, 768, 1023],
+  },
+  {
+    primary: manHolding,
+    hover: hands,
+    altPrimary: 'Hand holding the STNDRD lip balm tube',
+    altHover: 'Macro shot of matte balm texture swiped on the back of a hand',
+    widths: [480, 768, 1024],
+  },
+  {
+    primary: flatLay,
+    hover: flatLayClose,
+    altPrimary: 'STNDRD lip balm tube arranged with everyday carry items: phone, watch, wallet, sunglasses, keys',
+    altHover: 'Closer view of the STNDRD tube among the same everyday carry items',
+    widths: [480, 768, 1012],
+  },
+];
+---
+<section class="strip">
+  {pairs.map((pair) => (
+    <CrossfadePhoto
+      primary={pair.primary}
+      hover={pair.hover}
+      altPrimary={pair.altPrimary}
+      altHover={pair.altHover}
+      widths={pair.widths}
+      sizes={stripSizes}
+    />
+  ))}
+</section>

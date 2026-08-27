@@ -1,0 +1,63 @@
+---
+import CrossfadePhoto from './CrossfadePhoto.astro';
+import besswaxBlock from '../assets/BesswaxBlock.jpeg';
+import beeswaxPowder from '../assets/BeeswaxPowder.jpeg';
+import jojobaOil from '../assets/JojobaOil.jpeg';
+import jojobaSplattered from '../assets/JojobaSplattered.jpeg';
+import vitaminE from '../assets/VitaminE.jpeg';
+import vitaminPowder from '../assets/VitaminPowder.jpeg';
+
+const cardSizes = '(max-width: 860px) calc(100vw - 40px), 33vw';
+
+const ingredients = [
+  {
+    primary: besswaxBlock,
+    hover: beeswaxPowder,
+    altPrimary: 'A raw block of beeswax',
+    altHover: 'Beeswax ground into a fine powder',
+    widths: [412, 640, 825],
+    name: 'Beeswax',
+    blurb: 'Seals moisture in. Nothing exotic about it.',
+  },
+  {
+    primary: jojobaOil,
+    hover: jojobaSplattered,
+    altPrimary: 'Jojoba oil pooled in a shallow glass dish',
+    altHover: 'Jojoba oil splattered in droplets',
+    widths: [412, 640, 825],
+    name: 'Jojoba oil',
+    blurb: 'Absorbs without leaving a slick film.',
+  },
+  {
+    primary: vitaminE,
+    hover: vitaminPowder,
+    altPrimary: 'A single vitamin E softgel capsule',
+    altHover: 'Vitamin E in powder form',
+    widths: [512, 768, 1024],
+    name: 'Vitamin E',
+    blurb: 'Keeps the balm stable in a hot car.',
+  },
+];
+---
+<section id="ingredients">
+  <div class="ingredients-head">
+    <span class="eyebrow-quiet">INGREDIENTS</span>
+    <h2>Don't overcomplicate it.</h2>
+  </div>
+  <div class="ingredients-grid">
+    {ingredients.map((item) => (
+      <div class="ingredient-card">
+        <CrossfadePhoto
+          primary={item.primary}
+          hover={item.hover}
+          altPrimary={item.altPrimary}
+          altHover={item.altHover}
+          widths={item.widths}
+          sizes={cardSizes}
+        />
+        <h3>{item.name}</h3>
+        <p>{item.blurb}</p>
+      </div>
+    ))}
+  </div>
+</section>
