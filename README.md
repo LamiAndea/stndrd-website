@@ -2,7 +2,7 @@
 
 Pre-launch marketing site for **STNDRD** — an unscented lip balm made from three ingredients (beeswax, jojoba oil, vitamin E) and nothing else.
 
-**Live:** [stndrd-website.vercel.app](https://stndrd-website.vercel.app)
+**Live:** [stndrdhq.com](https://stndrdhq.com)
 
 ## About
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://stndrd-website.vercel.app/sitemap.xml
+Sitemap: https://stndrdhq.com/sitemap.xml
