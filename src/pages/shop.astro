@@ -1,0 +1,132 @@
+---
+import '../styles/global.css';
+import { Image } from 'astro:assets';
+import ShopHeader from '../components/ShopHeader.astro';
+import WaitlistBand from '../components/WaitlistBand.astro';
+
+import product from '../assets/shop/product.png';
+import capOff from '../assets/shop/cap-off.png';
+import inHand from '../assets/shop/in-hand.png';
+import pocket from '../assets/shop/pocket.png';
+import macro from '../assets/shop/macro.png';
+
+const siteUrl = 'https://stndrd-website.vercel.app';
+const title = 'Shop — STNDRD';
+const description = 'STNDRD unscented matte lip balm. Three ingredients, one product. $21.00, 0.15 oz / 14 g.';
+
+// Product data lives here until the real cart/backend arrives.
+const item = {
+  name: 'Lip balm',
+  price: 21,
+  size: '0.15 oz / 14 g',
+};
+
+const shots = [
+  { img: product, label: 'tube, straight on', fit: 'contain', alt: 'STNDRD lip balm tube, straight on' },
+  { img: capOff, label: 'cap off', fit: 'contain', alt: 'STNDRD lip balm tube with the cap off' },
+  { img: inHand, label: 'in hand', fit: 'cover', alt: 'STNDRD lip balm tube held in a hand' },
+  { img: pocket, label: 'in pocket', fit: 'cover', alt: 'STNDRD lip balm tube in a jeans pocket' },
+  { img: macro, label: 'matte finish, macro', fit: 'cover', alt: "Macro of the balm's matte finish" },
+];
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<meta name="theme-color" content="#E6E6E3">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href={`${siteUrl}/shop`}>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="STNDRD">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={`${siteUrl}/shop`}>
+<meta property="og:image" content={`${siteUrl}/og.jpg`}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="STNDRD lip balm tube resting diagonally on a light grey surface">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<ShopHeader />
+
+<main id="main">
+  <div class="shop-product">
+
+    <div class="shop-gallery">
+      <div class="shop-main-frame">
+        {shots.map((shot, i) => (
+          <div class:list={['shot-layer', `fit-${shot.fit}`]} data-shot={i} hidden={i !== 0}>
+            <Image src={shot.img} alt={shot.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+          </div>
+        ))}
+        <span class="shop-caption" id="shop-caption" aria-live="polite">{shots[0].label}</span>
+        <button type="button" class="shop-arrow shop-arrow-prev" id="shop-prev" aria-label="Previous photo">←</button>
+        <button type="button" class="shop-arrow shop-arrow-next" id="shop-next" aria-label="Next photo">→</button>
+      </div>
+      <div class="shop-thumbs">
+        {shots.map((shot, i) => (
+          <button
+            type="button"
+            class:list={['shop-thumb', { 'is-selected': i === 0 }]}
+            data-shot={i}
+            title={shot.label}
+            aria-label={`Show photo: ${shot.label}`}
+            aria-current={i === 0 ? 'true' : undefined}
+          >
+            <span class:list={['thumb-layer', `fit-${shot.fit}`]}>
+              <Image src={shot.img} alt="" loading="lazy" />
+            </span>
+            <span class="thumb-ring" aria-hidden="true"></span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="shop-buy" id="buy-panel" data-price={item.price}>
+      <div class="shop-buy-head">
+        <span class="shop-stock">In stock — ships in 2 days</span>
+        <h1>{item.name}</h1>
+        <div class="shop-price-row">
+          <span class="shop-price">${item.price.toFixed(2)}</span>
+          <span class="shop-size">{item.size}</span>
+        </div>
+      </div>
+
+      <div class="shop-divider" aria-hidden="true"></div>
+
+      <div class="shop-controls">
+        <div class="shop-qty-row">
+          <span class="shop-qty-label" id="qty-label">Quantity</span>
+          <div class="shop-stepper" role="group" aria-labelledby="qty-label">
+            <button type="button" id="qty-dec" aria-label="Decrease quantity">−</button>
+            <span class="shop-qty" id="qty-value">1</span>
+            <button type="button" id="qty-inc" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <button type="button" class="shop-add" id="add-to-cart">
+          <span id="add-label">Add to cart</span><span class="shop-total" id="add-total">${item.price.toFixed(2)}</span>
+        </button>
+        <span class="shop-fine-print">Free US shipping over $45. 30-day returns.</span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<WaitlistBand />
+
+<script src="../scripts/shop.js"></script>
+</body>
+</html>

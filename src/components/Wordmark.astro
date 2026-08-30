@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<span class:list={['wordmark', className]} translate="no">STNDR<svg viewBox="0 0 85.4 100" fill="none" stroke="currentColor" aria-hidden="true" focusable="false">
+  <path d="M8 8 H43 A34.4 42 0 0 1 43 92 H8 Z" stroke-width="16"/>
+  <circle cx="34.5" cy="40" r="4.2" fill="currentColor" stroke="none"/>
+  <circle cx="51" cy="40" r="4.2" fill="currentColor" stroke="none"/>
+  <path d="M32.5 55 Q42.7 66 53 55" stroke-width="5.5" stroke-linecap="round"/>
+</svg></span>

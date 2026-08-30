@@ -1,0 +1,10 @@
+---
+import Wordmark from './Wordmark.astro';
+---
+<header class="site-header">
+  <a class="logo" href="/" aria-label="STNDRD, home"><Wordmark /></a>
+  <nav class="site-nav" aria-label="Site">
+    <span class="site-nav-current" aria-current="page"><span>Shop</span><span class="nav-underline" aria-hidden="true"></span></span>
+    <button type="button" class="cart-pill" aria-label="Cart">Cart <span class="cart-count" id="cart-count" aria-live="polite">0</span></button>
+  </nav>
+</header>
