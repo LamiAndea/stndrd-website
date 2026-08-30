@@ -506,6 +506,7 @@ a.logo, a.logo:hover { color: var(--ink); text-decoration: none; }
   min-width: 0;
   overflow-wrap: break-word;
 }
+.footer-privacy { opacity: .75; }
 .footer-contact a { color: inherit; text-decoration: underline; }
 .footer-contact a:hover { color: var(--ink-inverse); }
 .footer-contact a:focus-visible { outline-color: var(--ink-inverse); }
