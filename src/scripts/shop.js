@@ -1,12 +1,6 @@
-const WAITLIST_ENDPOINT = '/api/waitlist';
-
-const prefersReducedMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 document.addEventListener('DOMContentLoaded', () => {
   initGallery();
   initBuyPanel();
-  initBandWaitlist();
 });
 
 function initGallery() {
@@ -82,74 +76,4 @@ function initBuyPanel() {
   });
 
   render();
-}
-
-function initBandWaitlist() {
-  const form = document.getElementById('band-form');
-  if (!form) return;
-
-  const emailInput = document.getElementById('band-email');
-  const errorEl = document.getElementById('band-error');
-  const confirmEl = document.getElementById('band-confirm');
-  const submitBtn = document.getElementById('band-join');
-  const honeypot = document.getElementById('band-company');
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-  const showError = (message) => {
-    errorEl.textContent = message;
-    errorEl.classList.add('show');
-    emailInput.focus();
-  };
-
-  emailInput.addEventListener('input', () => {
-    errorEl.classList.remove('show');
-  });
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = emailInput.value.trim();
-    if (!emailRegex.test(email)) {
-      showError('That address looks incomplete. Check it and try again.');
-      return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Joining…';
-    let failMessage = null;
-    try {
-      const res = await fetch(WAITLIST_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, company: honeypot ? honeypot.value : '' }),
-      });
-      if (res.status === 503) {
-        failMessage = "The waitlist isn't open quite yet. Try again soon.";
-      } else if (res.status === 429) {
-        failMessage = 'Too many attempts. Wait a minute and try again.';
-      } else if (!res.ok) {
-        failMessage = "Couldn't save your address. Try again in a moment.";
-      }
-    } catch {
-      failMessage = "Couldn't reach the server. Check your connection and try again.";
-    }
-
-    if (failMessage) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Join';
-      showError(failMessage);
-      return;
-    }
-
-    const swap = () => {
-      form.hidden = true;
-      confirmEl.hidden = false;
-      if (!prefersReducedMotion()) confirmEl.classList.add('confirm-enter');
-    };
-    if (prefersReducedMotion()) {
-      swap();
-    } else {
-      form.classList.add('form-leave');
-      setTimeout(swap, 160);
-    }
-  });
 }

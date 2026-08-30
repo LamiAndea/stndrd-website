@@ -641,58 +641,6 @@ a.logo, a.logo:hover { color: var(--ink); text-decoration: none; }
 }
 .shop-add:hover { background: var(--ink-hover); }
 .shop-total { opacity: .6; }
-.shop-fine-print { font: 400 12px/1.6 var(--font-sans); color: var(--text-quiet); }
-
-/* ---------- shop: waitlist + footer band ---------- */
-.shop-band {
-  padding: 64px 40px;
-  background: var(--ink);
-  color: var(--ink-inverse);
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  /* hairline before the standard site footer that follows */
-  border-bottom: 1px solid var(--border-dark);
-}
-.shop-band :focus-visible { outline-color: var(--ink-inverse); }
-.shop-band h2 {
-  font: 300 30px/1.2 var(--font-sans);
-  letter-spacing: -.02em;
-  max-width: 26ch;
-}
-.band-signup { display: flex; flex-direction: column; gap: 8px; max-width: 420px; }
-.band-signup-row { display: flex; gap: 10px; }
-.band-signup-row input {
-  flex: 1;
-  min-width: 0;
-  border: 1px solid var(--border-darker);
-  border-radius: 0;
-  background: var(--ink);
-  padding: 14px 16px;
-  font: 400 14px/1.2 var(--font-sans);
-  color: var(--ink-inverse);
-}
-.band-signup-row button {
-  background: var(--ink-inverse);
-  color: var(--ink);
-  border: none;
-  padding: 14px 24px;
-  border-radius: 999px;
-  font: 400 14px/1 var(--font-sans);
-  cursor: pointer;
-  transition: opacity .15s ease;
-}
-.band-signup-row button:hover { opacity: .9; }
-.band-signup-row button:disabled { opacity: .6; cursor: default; }
-.band-signup-error { display: none; font: 400 13px/1.5 var(--font-sans); color: var(--error-on-dark); }
-.band-signup-error.show { display: block; }
-.band-helper { font: 400 13px/1.5 var(--font-sans); color: var(--text-footer); }
-.band-signup-confirm {
-  border: 1px solid var(--border-darker);
-  padding: 16px;
-  max-width: 420px;
-  font: 400 14px/1.6 var(--font-sans);
-}
 
 /* ---------- shop: motion ---------- */
 @media (prefers-reduced-motion: no-preference) {
@@ -717,12 +665,6 @@ a.logo, a.logo:hover { color: var(--ink); text-decoration: none; }
   .shop-add { transition: background .15s ease, transform .12s ease; }
   .shop-add:active { transform: scale(.985); }
   .cart-count.bump { display: inline-block; animation: cart-bump .35s ease; }
-  .band-signup { transition: opacity .16s ease-out; }
-  .band-signup.form-leave { opacity: 0; }
-  .band-signup-error.show { animation: error-in .2s ease-out both; }
-  .band-signup-confirm.confirm-enter {
-    animation: confirm-settle .45s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
 }
 @keyframes cart-bump {
   0% { transform: scale(1); }
@@ -740,7 +682,6 @@ a.logo, a.logo:hover { color: var(--ink); text-decoration: none; }
      described mobile treatment) */
   .shop-product { grid-template-columns: 1fr; }
   .shop-buy { position: static; min-height: 0; padding: 48px 24px; }
-  .shop-band { padding: 48px 24px; }
   .hero-inner, .ingredients-head { padding-left: 20px; padding-right: 20px; }
   .ingredients-grid {
     grid-template-columns: 1fr;
@@ -764,6 +705,5 @@ a.logo, a.logo:hover { color: var(--ink); text-decoration: none; }
   .logo { font-size: 13px; }
   .shot-layer { inset: 24px; }
   .shop-buy { padding: 40px 20px; }
-  .shop-band { padding: 48px 20px; }
   .hero h1 { font-size: 42px; }
 }

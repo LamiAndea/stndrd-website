@@ -2,14 +2,13 @@
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 import ShopHeader from '../components/ShopHeader.astro';
-import WaitlistBand from '../components/WaitlistBand.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
-import product from '../assets/shop/product.png';
-import capOff from '../assets/shop/cap-off.png';
-import inHand from '../assets/shop/in-hand.png';
-import pocket from '../assets/shop/pocket.png';
-import macro from '../assets/shop/macro.png';
+import heroPhoto from '../assets/HeroPhoto.webp';
+import capOff from '../assets/Capoff.webp';
+import manHolding from '../assets/ManHolding.jpeg';
+import flatLay from '../assets/FlatLayEssentials.jpeg';
+import hands from '../assets/Hands.jpeg';
 
 const siteUrl = 'https://stndrd-website.vercel.app';
 const title = 'Shop — STNDRD';
@@ -23,11 +22,11 @@ const item = {
 };
 
 const shots = [
-  { img: product, label: 'tube, straight on', fit: 'contain', alt: 'STNDRD lip balm tube, straight on' },
-  { img: capOff, label: 'cap off', fit: 'contain', alt: 'STNDRD lip balm tube with the cap off' },
-  { img: inHand, label: 'in hand', fit: 'cover', alt: 'STNDRD lip balm tube held in a hand' },
-  { img: pocket, label: 'in pocket', fit: 'cover', alt: 'STNDRD lip balm tube in a jeans pocket' },
-  { img: macro, label: 'matte finish, macro', fit: 'cover', alt: "Macro of the balm's matte finish" },
+  { img: heroPhoto, label: 'the tube', fit: 'cover', alt: 'STNDRD lip balm tube lying at an angle on a light grey surface' },
+  { img: capOff, label: 'cap off', fit: 'cover', alt: 'STNDRD lip balm tube standing open with the cap removed beside it' },
+  { img: manHolding, label: 'in hand', fit: 'cover', alt: 'Hand holding the STNDRD lip balm tube' },
+  { img: flatLay, label: 'everyday carry', fit: 'cover', alt: 'STNDRD lip balm tube arranged with everyday carry items: phone, watch, wallet, sunglasses, keys' },
+  { img: hands, label: 'matte finish, macro', fit: 'cover', alt: 'Macro shot of matte balm texture swiped on the back of a hand' },
 ];
 ---
 <!DOCTYPE html>
@@ -118,14 +117,11 @@ const shots = [
         <button type="button" class="shop-add" id="add-to-cart">
           <span id="add-label">Add to cart</span><span class="shop-total" id="add-total">${item.price.toFixed(2)}</span>
         </button>
-        <span class="shop-fine-print">Free US shipping over $45. 30-day returns.</span>
       </div>
     </div>
 
   </div>
 </main>
-
-<WaitlistBand />
 
 <SiteFooter />
 
