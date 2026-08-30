@@ -18,7 +18,8 @@ A single-page site built to collect waitlist signups ahead of launch: a full-ble
 .
 ├── src/
 │   ├── pages/
-│   │   ├── index.astro       # the page: hero, ingredients, photo strip
+│   │   ├── index.astro       # landing: hero, ingredients, photo strip, waitlist
+│   │   ├── shop.astro        # product page: gallery, quantity, add to cart
 │   │   ├── 404.astro         # branded not-found page
 │   │   └── api/waitlist.ts   # serverless signup endpoint (Resend Audiences)
 │   ├── components/           # Hero, Ingredients, Strip, header/footer, CrossfadePhoto
