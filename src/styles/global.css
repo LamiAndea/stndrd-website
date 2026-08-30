@@ -580,6 +580,7 @@ a.logo, a.logo:hover { color: var(--ink); text-decoration: none; }
   position: sticky;
   top: 79px; /* header height incl. border */
   min-height: calc(100vh - 79px);
+  min-height: calc(100dvh - 79px); /* dynamic-viewport browsers (iOS) */
   display: flex;
   flex-direction: column;
   justify-content: center;

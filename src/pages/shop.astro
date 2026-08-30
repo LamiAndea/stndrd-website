@@ -68,7 +68,7 @@ const shots = [
       <div class="shop-main-frame">
         {shots.map((shot, i) => (
           <div class:list={['shot-layer', `fit-${shot.fit}`, { 'is-active': i === 0 }]} data-shot={i} aria-hidden={i === 0 ? 'false' : 'true'}>
-            <Image src={shot.img} alt={shot.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+            <Image src={shot.img} alt={shot.alt} widths={[480, 760, 1000]} sizes="(max-width: 860px) 100vw, 55vw" loading={i === 0 ? 'eager' : 'lazy'} />
           </div>
         ))}
         <button type="button" class="shop-arrow shop-arrow-prev" id="shop-prev" aria-label="Previous photo">←</button>
@@ -85,7 +85,7 @@ const shots = [
             aria-current={i === 0 ? 'true' : undefined}
           >
             <span class:list={['thumb-layer', `fit-${shot.fit}`]}>
-              <Image src={shot.img} alt="" loading="lazy" />
+              <Image src={shot.img} alt="" widths={[200, 320]} sizes="(max-width: 860px) 20vw, 11vw" loading="lazy" />
             </span>
             <span class="thumb-ring" aria-hidden="true"></span>
           </button>
@@ -110,12 +110,12 @@ const shots = [
           <span class="shop-qty-label" id="qty-label">Quantity</span>
           <div class="shop-stepper" role="group" aria-labelledby="qty-label">
             <button type="button" id="qty-dec" aria-label="Decrease quantity">−</button>
-            <span class="shop-qty" id="qty-value">1</span>
+            <span class="shop-qty" id="qty-value" aria-live="polite">1</span>
             <button type="button" id="qty-inc" aria-label="Increase quantity">+</button>
           </div>
         </div>
         <button type="button" class="shop-add" id="add-to-cart">
-          <span id="add-label">Add to cart</span><span class="shop-total" id="add-total">${item.price.toFixed(2)}</span>
+          <span id="add-label" aria-live="polite">Add to cart</span><span class="shop-total" id="add-total">${item.price.toFixed(2)}</span>
         </button>
       </div>
     </div>

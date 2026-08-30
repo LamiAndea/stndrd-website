@@ -1,12 +1,19 @@
 ---
+import Wordmark from './Wordmark.astro';
+
+// linkHome: on pages other than the landing page the logo navigates home
+// instead of scrolling to top (the scroll behavior needs the landing script).
+interface Props {
+  linkHome?: boolean;
+}
+const { linkHome = false } = Astro.props;
 ---
 <header class="site-header">
-  <button class="logo" data-scroll="top" aria-label="STNDRD, back to top"><span translate="no">STNDR</span><svg viewBox="0 0 85.4 100" fill="none" stroke="currentColor" aria-hidden="true" focusable="false">
-    <path d="M8 8 H43 A34.4 42 0 0 1 43 92 H8 Z" stroke-width="16"/>
-    <circle cx="34.5" cy="40" r="4.2" fill="currentColor"/>
-    <circle cx="51" cy="40" r="4.2" fill="currentColor"/>
-    <path d="M32.5 55 Q42.7 66 53 55" stroke-width="5.5" stroke-linecap="round"/>
-  </svg></button>
+  {linkHome ? (
+    <a class="logo" href="/" aria-label="STNDRD, home"><Wordmark /></a>
+  ) : (
+    <button class="logo" data-scroll="top" aria-label="STNDRD, back to top"><Wordmark /></button>
+  )}
   <nav class="site-nav" aria-label="Site">
     <a href="/shop">Shop</a>
   </nav>
