@@ -1,5 +1,8 @@
 const WAITLIST_ENDPOINT = '/api/waitlist';
 
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 document.addEventListener('DOMContentLoaded', () => {
   initGallery();
   initBuyPanel();
@@ -9,19 +12,20 @@ document.addEventListener('DOMContentLoaded', () => {
 function initGallery() {
   const layers = Array.from(document.querySelectorAll('.shot-layer'));
   const thumbs = Array.from(document.querySelectorAll('.shop-thumb'));
-  const caption = document.getElementById('shop-caption');
   if (!layers.length) return;
 
   let active = 0;
   const show = (i) => {
     active = ((i % layers.length) + layers.length) % layers.length;
-    layers.forEach((layer, n) => { layer.hidden = n !== active; });
+    layers.forEach((layer, n) => {
+      layer.classList.toggle('is-active', n === active);
+      layer.setAttribute('aria-hidden', n === active ? 'false' : 'true');
+    });
     thumbs.forEach((thumb, n) => {
       thumb.classList.toggle('is-selected', n === active);
       if (n === active) thumb.setAttribute('aria-current', 'true');
       else thumb.removeAttribute('aria-current');
     });
-    if (caption && thumbs[active]) caption.textContent = thumbs[active].title;
   };
 
   document.getElementById('shop-prev')?.addEventListener('click', () => show(active - 1));
@@ -65,7 +69,13 @@ function initBuyPanel() {
 
   addBtn.addEventListener('click', () => {
     cart += qty;
-    if (cartCount) cartCount.textContent = cart;
+    if (cartCount) {
+      cartCount.textContent = cart;
+      // restart the bump animation on every add
+      cartCount.classList.remove('bump');
+      void cartCount.offsetWidth;
+      cartCount.classList.add('bump');
+    }
     addLabel.textContent = 'Added to cart';
     clearTimeout(labelTimer);
     labelTimer = setTimeout(resetLabel, 1800);
@@ -82,6 +92,7 @@ function initBandWaitlist() {
   const errorEl = document.getElementById('band-error');
   const confirmEl = document.getElementById('band-confirm');
   const submitBtn = document.getElementById('band-join');
+  const honeypot = document.getElementById('band-company');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   const showError = (message) => {
@@ -109,7 +120,7 @@ function initBandWaitlist() {
       const res = await fetch(WAITLIST_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, company: honeypot ? honeypot.value : '' }),
       });
       if (res.status === 503) {
         failMessage = "The waitlist isn't open quite yet. Try again soon.";
@@ -129,7 +140,16 @@ function initBandWaitlist() {
       return;
     }
 
-    form.hidden = true;
-    confirmEl.hidden = false;
+    const swap = () => {
+      form.hidden = true;
+      confirmEl.hidden = false;
+      if (!prefersReducedMotion()) confirmEl.classList.add('confirm-enter');
+    };
+    if (prefersReducedMotion()) {
+      swap();
+    } else {
+      form.classList.add('form-leave');
+      setTimeout(swap, 160);
+    }
   });
 }

@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { Image } from 'astro:assets';
 import ShopHeader from '../components/ShopHeader.astro';
 import WaitlistBand from '../components/WaitlistBand.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 import product from '../assets/shop/product.png';
 import capOff from '../assets/shop/cap-off.png';
@@ -12,13 +13,13 @@ import macro from '../assets/shop/macro.png';
 
 const siteUrl = 'https://stndrd-website.vercel.app';
 const title = 'Shop — STNDRD';
-const description = 'STNDRD unscented matte lip balm. Three ingredients, one product. $21.00, 0.15 oz / 14 g.';
+const description = 'STNDRD unscented matte lip balm. Three ingredients, one product. $21.00, 15 g.';
 
 // Product data lives here until the real cart/backend arrives.
 const item = {
   name: 'Lip balm',
   price: 21,
-  size: '0.15 oz / 14 g',
+  size: '15g',
 };
 
 const shots = [
@@ -67,11 +68,10 @@ const shots = [
     <div class="shop-gallery">
       <div class="shop-main-frame">
         {shots.map((shot, i) => (
-          <div class:list={['shot-layer', `fit-${shot.fit}`]} data-shot={i} hidden={i !== 0}>
+          <div class:list={['shot-layer', `fit-${shot.fit}`, { 'is-active': i === 0 }]} data-shot={i} aria-hidden={i === 0 ? 'false' : 'true'}>
             <Image src={shot.img} alt={shot.alt} loading={i === 0 ? 'eager' : 'lazy'} />
           </div>
         ))}
-        <span class="shop-caption" id="shop-caption" aria-live="polite">{shots[0].label}</span>
         <button type="button" class="shop-arrow shop-arrow-prev" id="shop-prev" aria-label="Previous photo">←</button>
         <button type="button" class="shop-arrow shop-arrow-next" id="shop-next" aria-label="Next photo">→</button>
       </div>
@@ -96,7 +96,7 @@ const shots = [
 
     <div class="shop-buy" id="buy-panel" data-price={item.price}>
       <div class="shop-buy-head">
-        <span class="shop-stock">In stock — ships in 2 days</span>
+        <span class="shop-stock">In stock</span>
         <h1>{item.name}</h1>
         <div class="shop-price-row">
           <span class="shop-price">${item.price.toFixed(2)}</span>
@@ -126,6 +126,8 @@ const shots = [
 </main>
 
 <WaitlistBand />
+
+<SiteFooter />
 
 <script src="../scripts/shop.js"></script>
 </body>
