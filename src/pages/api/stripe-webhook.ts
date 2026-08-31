@@ -16,11 +16,27 @@ const handled = new Set<string>();
 const money = (amount: number | null, currency: string | null) =>
   amount === null ? '—' : `${(amount / 100).toFixed(2)} ${(currency ?? 'usd').toUpperCase()}`;
 
+type Addr = Stripe.Address | null | undefined;
+
+// Current API versions return the shipping address under
+// collected_information; older ones use the top-level shipping_details.
+// customer_details.address is the last resort.
+function shippingFrom(session: Stripe.Checkout.Session) {
+  const collected = (session as unknown as {
+    collected_information?: { shipping_details?: { address?: Addr; name?: string | null } | null };
+  }).collected_information?.shipping_details;
+  const legacy = session.shipping_details as { address?: Addr; name?: string | null } | null | undefined;
+  return {
+    address: collected?.address ?? legacy?.address ?? session.customer_details?.address,
+    name: collected?.name ?? legacy?.name ?? session.customer_details?.name ?? null,
+  };
+}
+
 async function sendOrderEmail(session: Stripe.Checkout.Session) {
   const apiKey = import.meta.env.RESEND_API_KEY;
   if (!apiKey) return;
 
-  const addr = session.shipping_details?.address;
+  const { address: addr, name } = shippingFrom(session);
   const shipTo = addr
     ? [addr.line1, addr.line2, `${addr.city ?? ''} ${addr.state ?? ''} ${addr.postal_code ?? ''}`.trim(), addr.country]
         .filter(Boolean)
@@ -30,7 +46,7 @@ async function sendOrderEmail(session: Stripe.Checkout.Session) {
   const lines = [
     `Total: ${money(session.amount_total, session.currency)}`,
     `Email: ${session.customer_details?.email ?? '—'}`,
-    `Name: ${session.shipping_details?.name ?? session.customer_details?.name ?? '—'}`,
+    `Name: ${name ?? '—'}`,
     '',
     'Ship to:',
     shipTo,
