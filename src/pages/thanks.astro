@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Stripe from 'stripe';
+
+export const prerender = false;
+
+// Confirm against Stripe rather than trusting the URL, so this page only
+// claims an order exists when one actually does.
+const sessionId = Astro.url.searchParams.get('session_id');
+let buyerEmail: string | null = null;
+let confirmed = false;
+
+const secretKey = import.meta.env.STRIPE_SECRET_KEY;
+if (sessionId && secretKey) {
+  try {
+    const stripe = new Stripe(secretKey);
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (session.payment_status === 'paid') {
+      confirmed = true;
+      buyerEmail = session.customer_details?.email ?? null;
+    }
+  } catch {
+    /* fall through to the generic message */
+  }
+}
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order confirmed — STNDRD</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#E6E6E3">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+
+<SiteHeader linkHome />
+
+<main class="page-note">
+  {confirmed ? (
+    <>
+      <h1>It's on the way.</h1>
+      <p>
+        {buyerEmail
+          ? `Your order is confirmed. A receipt is headed to ${buyerEmail}.`
+          : 'Your order is confirmed. A receipt is headed to your email.'}
+      </p>
+      <a class="page-note-link" href="/">Back to the balm</a>
+    </>
+  ) : (
+    <>
+      <h1>Nothing to confirm.</h1>
+      <p>We can't find that order. If you just paid and this looks wrong, email us and we'll sort it out.</p>
+      <a class="page-note-link" href="/shop">Back to the shop</a>
+    </>
+  )}
+</main>
+
+<SiteFooter />
+
+</body>
+</html>

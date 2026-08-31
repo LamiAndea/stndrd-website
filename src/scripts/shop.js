@@ -1,3 +1,7 @@
+const CHECKOUT_ENDPOINT = '/api/checkout';
+const CART_KEY = 'stndrd.cart.qty';
+const MAX_QUANTITY = 9;
+
 document.addEventListener('DOMContentLoaded', () => {
   initGallery();
   initBuyPanel();
@@ -27,6 +31,25 @@ function initGallery() {
   thumbs.forEach((thumb, n) => thumb.addEventListener('click', () => show(n)));
 }
 
+// Storage can throw outright in private modes; the cart degrades to
+// in-memory rather than breaking the page.
+function readCart() {
+  try {
+    const raw = parseInt(window.localStorage.getItem(CART_KEY), 10);
+    return Number.isFinite(raw) ? Math.min(MAX_QUANTITY, Math.max(0, raw)) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function writeCart(value) {
+  try {
+    window.localStorage.setItem(CART_KEY, String(value));
+  } catch {
+    /* keep the in-memory count */
+  }
+}
+
 function initBuyPanel() {
   const panel = document.getElementById('buy-panel');
   if (!panel) return;
@@ -37,22 +60,41 @@ function initBuyPanel() {
   const addLabel = document.getElementById('add-label');
   const addTotal = document.getElementById('add-total');
   const cartCount = document.getElementById('cart-count');
+  const cartPill = document.getElementById('cart-pill');
+  const errorEl = document.getElementById('buy-error');
 
-  // Header count is the only cart feedback in this concept; the real
-  // cart mutation replaces this when the backend lands.
   let qty = 1;
-  let cart = 0;
+  let cart = readCart();
   let labelTimer = null;
 
   const money = (n) => '$' + n.toFixed(2);
   const resetLabel = () => { addLabel.textContent = 'Add to cart'; };
+
+  const showError = (message) => {
+    if (!errorEl) return;
+    errorEl.textContent = message;
+    errorEl.classList.add('show');
+  };
+  const clearError = () => errorEl?.classList.remove('show');
+
+  const renderCart = () => {
+    if (cartCount) cartCount.textContent = cart;
+    if (cartPill) {
+      cartPill.disabled = cart === 0;
+      cartPill.setAttribute(
+        'aria-label',
+        cart === 0 ? 'Cart is empty' : `Cart — check out, ${cart} item${cart === 1 ? '' : 's'}`,
+      );
+    }
+  };
+
   const render = () => {
     qtyValue.textContent = qty;
     addTotal.textContent = money(price * qty);
   };
 
   const setQty = (next) => {
-    qty = Math.min(9, Math.max(1, next));
+    qty = Math.min(MAX_QUANTITY, Math.max(1, next));
     clearTimeout(labelTimer);
     resetLabel();
     render();
@@ -62,9 +104,16 @@ function initBuyPanel() {
   document.getElementById('qty-inc')?.addEventListener('click', () => setQty(qty + 1));
 
   addBtn.addEventListener('click', () => {
-    cart += qty;
+    clearError();
+    const next = Math.min(MAX_QUANTITY, cart + qty);
+    if (next === cart) {
+      showError(`That's the most we can ship in one order (${MAX_QUANTITY}).`);
+      return;
+    }
+    cart = next;
+    writeCart(cart);
+    renderCart();
     if (cartCount) {
-      cartCount.textContent = cart;
       // restart the bump animation on every add
       cartCount.classList.remove('bump');
       void cartCount.offsetWidth;
@@ -75,5 +124,37 @@ function initBuyPanel() {
     labelTimer = setTimeout(resetLabel, 1800);
   });
 
+  cartPill?.addEventListener('click', async () => {
+    if (cart === 0) return;
+    clearError();
+    cartPill.disabled = true;
+    const originalCount = cartCount ? cartCount.textContent : '';
+    if (cartCount) cartCount.textContent = '…';
+
+    let message = null;
+    try {
+      const res = await fetch(CHECKOUT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: cart }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      if (res.status === 503) message = "Checkout isn't open yet. Try again soon.";
+      else if (res.status === 429) message = 'Too many attempts. Wait a minute and try again.';
+      else message = "Couldn't start checkout. Try again in a moment.";
+    } catch {
+      message = "Couldn't reach the server. Check your connection and try again.";
+    }
+
+    if (cartCount) cartCount.textContent = originalCount;
+    cartPill.disabled = false;
+    showError(message);
+  });
+
+  renderCart();
   render();
 }
