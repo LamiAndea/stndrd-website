@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/vercel": "^8.0.0",
     "astro": "^5.0.0",
-    "sharp": "^0.34.0"
+    "sharp": "^0.34.0",
+    "stripe": "^22.6.0"
   }
 }
