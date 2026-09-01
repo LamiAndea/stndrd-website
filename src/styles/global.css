@@ -229,6 +229,58 @@ a.logo, a.logo:hover { color: var(--ink); text-decoration: none; }
 }
 .cart-count { font: 400 11px/1 var(--font-mono); letter-spacing: .06em; opacity: .75; }
 
+/* ---------- cart icon + badge ---------- */
+.cart-link {
+  position: relative;
+  /* a real 44x44 target, not a padded text link */
+  width: 44px;
+  height: 44px;
+  margin: -11px -10px -11px 0; /* absorb the target so header height is unchanged */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  transition: opacity .15s ease;
+}
+.cart-link:hover { color: var(--ink); text-decoration: none; opacity: .65; }
+.cart-icon { width: 22px; height: 22px; display: block; }
+.cart-badge {
+  position: absolute;      /* absolute, so appearing never moves the header */
+  top: 4px;
+  right: 1px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink-inverse);
+  font: 400 9px/15px var(--font-mono);
+  letter-spacing: .01em;
+  text-align: center;
+  pointer-events: none;
+  /* a ring in the header ground keeps the badge legible where it
+     crosses the icon's stroke */
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cart-badge.is-appearing {
+    animation: badge-in .3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .cart-badge.is-bumping {
+    animation: badge-bump .35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+@keyframes badge-in {
+  from { opacity: 0; transform: scale(.5); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes badge-bump {
+  0%   { transform: none; }
+  40%  { transform: scale(1.18); }
+  100% { transform: none; }
+}
+
 /* ---------- hero ---------- */
 .hero {
   min-height: max(680px, 88vh);

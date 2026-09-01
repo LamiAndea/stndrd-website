@@ -1,0 +1,73 @@
+---
+// Cart icon + item-count badge.
+// The site is statically rendered, so the badge ships hidden and empty;
+// a client script fills it from localStorage on load. Never bake a count
+// into the HTML — it would be stale for every visitor.
+---
+<a class="cart-link" href="/cart" id="cart-link" aria-label="Cart, empty">
+  <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true" focusable="false">
+    <path d="M5.8 8.5h12.4v10.4a2 2 0 0 1-2 2H7.8a2 2 0 0 1-2-2Z"/>
+    <path d="M9.2 8.5V6.8a2.8 2.8 0 0 1 5.6 0v1.7"/>
+  </svg>
+  <span class="cart-badge" id="cart-badge" aria-hidden="true" hidden></span>
+</a>
+
+<script>
+  const CART_KEY = 'stndrd.cart.qty';
+  const BADGE_CAP = 9;
+
+  const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function readCount() {
+    try {
+      const n = parseInt(window.localStorage.getItem(CART_KEY), 10);
+      return Number.isFinite(n) && n > 0 ? n : 0;
+    } catch {
+      // private mode can throw on access, not just on write
+      return 0;
+    }
+  }
+
+  function render(animate) {
+    const link = document.getElementById('cart-link');
+    const badge = document.getElementById('cart-badge');
+    if (!link || !badge) return;
+
+    const count = readCount();
+    const wasHidden = badge.hidden;
+    const previous = badge.textContent;
+
+    link.setAttribute(
+      'aria-label',
+      count === 0 ? 'Cart, empty' : `Cart, ${count} item${count === 1 ? '' : 's'}`,
+    );
+
+    if (count === 0) {
+      badge.hidden = true;
+      badge.textContent = '';
+      return;
+    }
+
+    badge.textContent = count > BADGE_CAP ? `${BADGE_CAP}+` : String(count);
+    badge.hidden = false;
+
+    if (!animate || reduced()) return;
+    // Appearing and changing are different events: one announces the badge,
+    // the other acknowledges a count it already showed.
+    const cls = wasHidden ? 'is-appearing' : (previous === badge.textContent ? null : 'is-bumping');
+    if (!cls) return;
+    badge.classList.remove('is-appearing', 'is-bumping');
+    void badge.offsetWidth;
+    badge.classList.add(cls);
+    badge.addEventListener('animationend', () => badge.classList.remove(cls), { once: true });
+  }
+
+  render(false);
+  document.addEventListener('cart:updated', () => render(true));
+  // keep other tabs in sync
+  window.addEventListener('storage', (e) => {
+    if (e.key === CART_KEY || e.key === null) render(true);
+  });
+</script>

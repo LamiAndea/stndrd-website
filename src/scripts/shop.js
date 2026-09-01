@@ -48,6 +48,8 @@ function writeCart(value) {
   } catch {
     /* keep the in-memory count */
   }
+  // the header badge listens for this
+  document.dispatchEvent(new CustomEvent('cart:updated', { detail: { count: value } }));
 }
 
 function initBuyPanel() {

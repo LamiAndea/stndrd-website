@@ -1,5 +1,6 @@
 ---
 import Wordmark from './Wordmark.astro';
+import CartIcon from './CartIcon.astro';
 
 // linkHome: on pages other than the landing page the logo navigates home
 // instead of scrolling to top (the scroll behavior needs the landing script).
@@ -16,5 +17,6 @@ const { linkHome = false } = Astro.props;
   )}
   <nav class="site-nav" aria-label="Site">
     <a href="/shop">Shop</a>
+    <CartIcon />
   </nav>
 </header>
