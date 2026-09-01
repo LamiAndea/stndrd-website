@@ -1,12 +1,18 @@
-# STNDRD
+# STNDRD — Astro build (archived)
 
-Pre-launch marketing site for **STNDRD** — an unscented lip balm made from three ingredients (beeswax, jojoba oil, vitamin E) and nothing else.
+The original STNDRD website, built with Astro and deployed on Vercel.
+**Superseded by a Shopify theme**, which is what now runs the live store at
+[stndrdhq.com](https://stndrdhq.com) — see
+[stndrd-shopify-theme](https://github.com/LamiAndea/stndrd-shopify-theme).
 
-**Live:** [stndrdhq.com](https://stndrdhq.com)
+This build is kept online as a working demo and a place to prototype:
 
-## About
-
-A single-page site built to collect waitlist signups ahead of launch: a full-bleed hero, an ingredients breakdown, a lifestyle photo strip, and an email signup.
+- **Live demo:** [stndrd-website.vercel.app](https://stndrd-website.vercel.app)
+- `noindex` and `Disallow: /` so it never competes with the real store in
+  search. Direct links work normally.
+- Checkout runs on **Stripe test mode** — card `4242 4242 4242 4242` with
+  any future expiry completes a real test order. It cannot move real money.
+- The waitlist form posts to a serverless route backed by Resend.
 
 ## Stack
 

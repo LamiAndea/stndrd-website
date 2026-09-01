@@ -1,4 +1,3 @@
+# Archived build. The live store is https://stndrdhq.com
 User-agent: *
-Allow: /
-
-Sitemap: https://stndrdhq.com/sitemap.xml
+Disallow: /
